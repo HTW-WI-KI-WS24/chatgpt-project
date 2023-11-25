@@ -16,15 +16,13 @@ class CentralAgent:
                 professional back and forth discussion.
                 Parameters that he should think about could for example be the book's genre, setting, location,
                 number of main characters, approximate length, target audience, the message it shall convey etc.
-                
-                At the beginning of the conversation, ask the user to give you any general ideas that he already 
-                has for his book and guide him through the process of finding new ones.
                 """
              }
         ]
+        self.conversation_evaluation = ""
 
     def generate_opening_statement(self):
-        temp_context = self.context
+        temp_context = self.context.copy()
         temp_context.append({"role": "user", "content": "Greet me and explain to me elaborately what your role is " +
                                                         "and ask me if I already have some ideas for my book."})
         completion = self.client.chat.completions.create(
@@ -55,6 +53,7 @@ class CentralAgent:
             user_input = input()
 
             if InputChecker.should_skip_process(user_input):
+                self.evaluate_conversation()
                 break
             elif InputChecker.should_repeat_process(user_input):
                 self.context = self.context[:1]  # Clears all the context except the role description.
@@ -64,3 +63,14 @@ class CentralAgent:
                 CustomPrinter.custom_print(self.generate_response(user_input))
 
         return
+
+    def evaluate_conversation(self):
+        self.context.append({"role": "user", "content": "Concisely summarize what I have envisioned for my book."})
+        completion = self.client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=self.context
+        )
+        conversation_evaluation: str = completion.choices[0].message.content
+
+        self.conversation_evaluation = conversation_evaluation
+        print("\n" + conversation_evaluation)
