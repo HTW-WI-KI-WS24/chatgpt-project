@@ -25,7 +25,8 @@ class CentralAgent:
 
     def generate_opening_statement(self):
         temp_context = self.context
-        temp_context.append({"role": "user", "content": "Please explain to me what your role is."})
+        temp_context.append({"role": "user", "content": "Greet me and explain to me elaborately what your role is " +
+                                                        "and ask me if I already have some ideas for my book."})
         completion = self.client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=temp_context
