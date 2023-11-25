@@ -1,109 +1,40 @@
-import customtkinter as ctk
-import time
 from openai import OpenAI
+from agents.CentralAgent import CentralAgent
 
+# OpenAI Client
 client = OpenAI()
 
-chatgpt_context = [
-    {"role": "system", "content": "You are a poetic assistant, skilled in explaining complex programming concepts in " +
-                                  "a creative but concise way."}
-]
+# Agents
+central_agent = CentralAgent()
 
-chat_message_gui_labels = []
+active_agent = central_agent
 
-def get_chatgpt_response(user_request):
-    completion = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=chatgpt_context
-    )
+def format_text(text: str):
+    approximate_line_length = 80
 
-    return completion.choices[0].message.content
+    txt = text.strip()
 
-def generate_chatgpt_response(user_request):
-    user_input_textbox.delete('1.0', "end")
-    display_user_request_in_gui(user_request)
-    time.sleep(1)
+    words = txt.split()
 
-    chatgpt_context.append({"role": "user", "content": user_request})
+    formatted_text = ""
 
-    chatgpt_response = get_chatgpt_response()
+    number_of_chars_in_current_line = 0
+    for word in words:
+        if number_of_chars_in_current_line > approximate_line_length:
+            formatted_text += "\n"
+            number_of_chars_in_current_line = 0
+        else:
+            formatted_text += word + " "
 
-    display_chatgpt_response_in_gui(chatgpt_response)
+        for char in word:
+            number_of_chars_in_current_line += 1
+        number_of_chars_in_current_line += 1 # account for spaces
 
-    chatgpt_context.append({"role": "assistant", "content": chatgpt_response})
+    formatted_text += "\n"
 
-def new_chat():
-    for item in chatgpt_context[1:]: # remove everything besides the first input (which is the role assignment)
-        chatgpt_context.remove(item)
+    return formatted_text
 
-    # gui
-    for chat_message_label in chat_message_gui_labels:
-        chat_message_label.destroy()
-
-def display_user_request_in_gui(user_request):
-    user_request_label = ctk.CTkLabel(
-        chat_frame,
-        corner_radius=20,
-        fg_color="#3c383d",
-        font=('Arial', 16, 'normal'),
-        text=user_request,
-        anchor="center"
-    )
-    user_request_label.pack(fill="x", padx=70, pady=(35, 0), ipadx=10, ipady=10)
-    chat_message_gui_labels.append(user_request_label)
-
-def display_chatgpt_response_in_gui(chatgpt_response):
-    chatgpt_response_label = ctk.CTkLabel(
-        chat_frame,
-        corner_radius=20,
-        fg_color="#383d38",
-        font=('Arial', 16, 'normal'),
-        text=chatgpt_response,
-        anchor="center"
-    )
-    chatgpt_response_label.pack(fill="x", padx=70, pady=(35, 0), ipadx=10, ipady=10)
-    chat_message_gui_labels.append(chatgpt_response_label)
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-window = ctk.CTk()
-window.title("BookGPT")
-window.geometry("800x600")
-window.after(1, window.wm_state, "zoomed")
-window.columnconfigure(0, weight=1)
-window.rowconfigure(0, weight=1)
-
-chat_frame = ctk.CTkScrollableFrame(window, corner_radius=0)
-chat_frame.grid(column=0, row=0, sticky="nsew")
-
-input_frame = ctk.CTkFrame(window, corner_radius=0)
-input_frame.columnconfigure(0, weight=1)
-input_frame.rowconfigure(0, weight=1)
-input_frame.grid(column=0, row=1, sticky="nsew")
-
-user_input_textbox = ctk.CTkTextbox(
-    input_frame,
-    corner_radius=20,
-    height=100,
-    fg_color="gray22",
-    font=('Arial', 18, 'normal')
-)
-user_input_textbox.grid(column=0, row=0, padx=70, pady=(70, 0), sticky="nsew")
-
-send_request_button = ctk.CTkButton(
-    input_frame,
-    text="Anfrage senden",
-    fg_color="#3c383d",
-    command=lambda: generate_chatgpt_response(user_input_textbox.get("1.0", "end"))
-)
-send_request_button.grid(column=0, row=1, padx=70, pady=(20, 50), sticky="e")
-
-new_chat_button = ctk.CTkButton(
-    input_frame,
-    text="Neuer Chat",
-    fg_color="#3c383d",
-    command=new_chat
-)
-new_chat_button.grid(column=0, row=1, padx=70, pady=(20, 50), sticky="w")
-
-window.mainloop()
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+while True:
+    print(format_text(active_agent.get_opening_statement()))
+    user_request = input()
+    print(format_text(active_agent.get_response(user_request)))
