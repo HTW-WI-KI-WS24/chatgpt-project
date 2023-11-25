@@ -30,7 +30,9 @@ class CentralAgent:
             model="gpt-3.5-turbo",
             messages=temp_context
         )
-        return completion.choices[0].message.content
+        opening_statement = completion.choices[0].message.content
+
+        return f"[{self.name}]: {opening_statement}"
 
     def generate_response(self, user_request):
         self.context.append({"role": "user", "content": user_request})
@@ -46,17 +48,17 @@ class CentralAgent:
         return f"[{self.name}]: {response}"
 
     def conduct_conversation(self):
-
         CustomPrinter.custom_print(self.generate_opening_statement(), True, True)
 
         while True:
             user_input = input()
 
-            if InputChecker.should_abort_process(user_input):
+            if InputChecker.should_skip_process(user_input):
                 break
             elif InputChecker.should_repeat_process(user_input):
-                self.context = self.context[1:]  # Clears all the context except the role description.
+                self.context = self.context[:1]  # Clears all the context except the role description.
                 self.conduct_conversation()
+                break
             else:
                 CustomPrinter.custom_print(self.generate_response(user_input))
 
