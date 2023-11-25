@@ -10,7 +10,7 @@ central_agent = CentralAgent()
 active_agent = central_agent
 
 def format_text(text: str):
-    approximate_line_length = 80
+    approximate_line_length = 100
 
     txt = text.strip()
 
@@ -23,8 +23,8 @@ def format_text(text: str):
         if number_of_chars_in_current_line > approximate_line_length:
             formatted_text += "\n"
             number_of_chars_in_current_line = 0
-        else:
-            formatted_text += word + " "
+
+        formatted_text += word + " "
 
         for char in word:
             number_of_chars_in_current_line += 1
@@ -34,7 +34,7 @@ def format_text(text: str):
 
     return formatted_text
 
+print(format_text(active_agent.get_opening_statement()))
 while True:
-    print(format_text(active_agent.get_opening_statement()))
     user_request = input()
     print(format_text(active_agent.get_response(user_request)))
