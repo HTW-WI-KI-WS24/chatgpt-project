@@ -17,8 +17,8 @@ class CentralAgent:
                 Parameters that he should think about could for example be the book's genre, setting, location,
                 number of main characters, approximate length, target audience, the message it shall convey etc.
                 
-                To start of the conversation, ask the user to give you any general ideas that he already has for his
-                book and guide him through the process of finding new ones.
+                At the beginning of the conversation, ask the user to give you any general ideas that he already 
+                has for his book and guide him through the process of finding new ones.
                 """
              }
         ]
