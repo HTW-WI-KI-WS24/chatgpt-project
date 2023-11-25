@@ -1,6 +1,10 @@
 from openai import OpenAI
+from utils import CustomPrinter
 
-class CentralAgent():
+import InputChecker
+
+
+class CentralAgent:
     def __init__(self):
         self.client = OpenAI()
         self.name = "CentralAgent"
@@ -16,19 +20,10 @@ class CentralAgent():
                 To start of the conversation, ask the user to give you any general ideas that he already has for his
                 book and guide him through the process of finding new ones.
                 """
-            }
+             }
         ]
 
-    def get_response(self, user_request):
-        self.context.append({"role": "user", "content": user_request})
-        completion = self.client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=self.context
-        )
-        return completion.choices[0].message.content
-
-
-    def get_opening_statement(self):
+    def generate_opening_statement(self):
         temp_context = self.context
         temp_context.append({"role": "user", "content": "Please explain to me what your role is."})
         completion = self.client.chat.completions.create(
@@ -36,3 +31,29 @@ class CentralAgent():
             messages=temp_context
         )
         return completion.choices[0].message.content
+
+    def generate_response(self, user_request):
+        self.context.append({"role": "user", "content": user_request})
+
+        completion = self.client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=self.context
+        )
+        response: str = completion.choices[0].message.content
+
+        self.context.append({"role": "assistant", "content": response})
+
+        return f"[{self.name}]: {response}"
+
+    def conduct_conversation(self):
+        CustomPrinter.custom_print(self.generate_opening_statement())
+
+        while True:
+            user_input = input()
+
+            if InputChecker.should_abort_process(user_input):
+                break
+
+            CustomPrinter.custom_print(self.generate_response(user_input))
+
+        return

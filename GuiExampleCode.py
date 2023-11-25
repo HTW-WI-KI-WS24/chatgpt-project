@@ -16,7 +16,7 @@ chatgpt_context = [
 chat_message_gui_labels = []
 
 def get_chatgpt_response(user_request):
-    return central_agent.get_response(user_request)
+    return central_agent.generate_response(user_request)
 
 def generate_chatgpt_response(user_request):
     user_input_textbox.delete('1.0', "end")
@@ -102,7 +102,7 @@ new_chat_button = ctk.CTkButton(
 )
 new_chat_button.grid(column=0, row=1, padx=70, pady=(20, 50), sticky="w")
 
-display_chatgpt_response_in_gui(central_agent.get_opening_statement())
+display_chatgpt_response_in_gui(central_agent.generate_opening_statement())
 
 window.mainloop()
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
