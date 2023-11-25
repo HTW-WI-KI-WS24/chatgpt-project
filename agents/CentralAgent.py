@@ -46,14 +46,18 @@ class CentralAgent:
         return f"[{self.name}]: {response}"
 
     def conduct_conversation(self):
-        CustomPrinter.custom_print(self.generate_opening_statement())
+
+        CustomPrinter.custom_print(self.generate_opening_statement(), True, True)
 
         while True:
             user_input = input()
 
             if InputChecker.should_abort_process(user_input):
                 break
-
-            CustomPrinter.custom_print(self.generate_response(user_input))
+            elif InputChecker.should_repeat_process(user_input):
+                self.context = self.context[1:]  # Clears all the context except the role description.
+                self.conduct_conversation()
+            else:
+                CustomPrinter.custom_print(self.generate_response(user_input))
 
         return
