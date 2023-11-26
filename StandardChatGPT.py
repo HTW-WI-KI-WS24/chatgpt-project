@@ -1,6 +1,5 @@
 from openai import OpenAI
 
-
 class StandardChatGPT:
     def __init__(self):
         self.client = OpenAI()
@@ -19,3 +18,4 @@ class StandardChatGPT:
         self.context.append({"role": "assistant", "content": response})
 
         return f"[{self.name}]: {response}"
+
