@@ -4,18 +4,18 @@ from utils import CustomPrinter
 import InputChecker
 
 
-class CentralAgent:
+class CharacterAgent:
     def __init__(self):
         self.client = OpenAI()
-        self.name = "CentralAgent"
+        self.name = "CharacterAgent"
         self.context = [
             {"role": "system", "content":
                 """
-                You are a skilled book writer who's knowledge specializes in creating a general idea for a new book.
-                It's your job to help the user devlop a general idea for what his first book could look like in a
-                professional back and forth discussion, without going further into detail.
-                Parameters that he should think about could for example be the book's genre, setting, location,
-                number of main characters, approximate length, target audience, the message it shall convey etc.
+                You are a skilled book writer who's knowledge specializes in creating interesting characters with
+                deep backstories and varying personalities and looks. It's your job to help the user develop a
+                a set of characters for the book he is about to write while taking its already existing ideas like
+                setting, theme and so on into consideration. It is important that you only focus on your job
+                and don't go further into detail.
                 """
              }
         ]
@@ -24,8 +24,7 @@ class CentralAgent:
     def generate_opening_statement(self):
         temp_context = self.context.copy()
         temp_context.append({"role": "user", "content": "Greet me and explain to me in about three sentences, what " +
-                                                        "your role is. Ask me afterwards, if I already have some " +
-                                                        "ideas for my book."})
+                                                        "your role is."})
         completion = self.client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=temp_context
@@ -66,8 +65,7 @@ class CentralAgent:
         return
 
     def evaluate_conversation(self):
-        self.context.append({"role": "user", "content": "Concisely summarize what I (the user) have envisioned for " +
-                                                        "my book."})
+        self.context.append({"role": "user", "content": "Concisely summarize what I have envisioned for my book."})
         completion = self.client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=self.context
