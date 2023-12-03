@@ -14,6 +14,8 @@ class CentralAgent(Agent):
                 Parameters that the user should think about could for example be the book's genre, setting, location,
                 number of main characters (not their details), approximate length, target audience, the message it shall 
                 convey etc.
+                
+                Your responses are not allowed to be longer than 8 sentences!
                 """,
             opening_statement_instructions="""
                 Greet me and explain to me in about three sentences, what your role is. Ask me afterwards, if I already 
@@ -52,6 +54,7 @@ class CentralAgent(Agent):
     def summarize_conversation(self):
         self.take_user_input(
             """
+            Thanks for your help. The back and fourth is now done.
             For all the points I have not given you information on, generate examples and use the first one of every
             point for my book.
             """

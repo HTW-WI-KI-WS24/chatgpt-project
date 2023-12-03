@@ -23,9 +23,8 @@ class CharacterAgent(Agent):
         self.context.append({"role": "user", "content": world_agent_summary})
 
     def generate_characters(self):
+        self.take_user_input("Create characters based on my general idea and world.")
+
         return self.take_input_and_generate_response(
-            """
-            Create short characters based on my general idea and world and describe them in less than three sentences 
-            for each character.
-            """
+            "Concisely summarize the characters that you have created."
         )
