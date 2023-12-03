@@ -42,21 +42,5 @@ class Agent(ABC):
         self.context.append({"role": "assistant", "content": response})
         return response
 
-    def summarize_conversation(self):
-        response: str = self.take_input_and_generate_response(
-            """
-            Summarize what I have envisioned for my book without adding things to it. Only cover the information that 
-            you are supposed to ascertain according to your role. 
-            
-            If the user didnt give enough information to cover a general idea in the way you are supposed to check for. 
-            Fill in the missing parts.
-            """
-        )
-        self.conversation_summary = response
-
-        print()
-        print(ConsoleHelpers.convert_to_block_text(self.attach_name(self.conversation_summary)))
-        print()
-
     def attach_name(self, message: str) -> str:
         return f"[{self.name}]: {message}"
