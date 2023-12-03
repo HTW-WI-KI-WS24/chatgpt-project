@@ -14,8 +14,6 @@ class CentralAgent(Agent):
                 Parameters that the user should think about could for example be the book's genre, setting, location,
                 number of main characters (not their details), approximate length, target audience, the message it shall 
                 convey etc.
-                
-                Your responses are not allowed to be longer than 8 sentences!
                 """,
             opening_statement_instructions="""
                 Greet me and explain to me in about three sentences, what your role is. Ask me afterwards, if I already 
