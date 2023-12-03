@@ -32,6 +32,8 @@ input(f"\nPress {ConsoleHelpers.make_cursive("Enter")} to continue...")
 print(ConsoleHelpers.make_cursive("generating...\n"))
 world_information = world_agent.generate_world()
 print(ConsoleHelpers.convert_to_block_text(world_agent.attach_name(world_information)))
+input(f"\nPress {ConsoleHelpers.make_cursive("Enter")} to continue...")
+print(ConsoleHelpers.make_cursive("generating...\n"))
 ConsoleHelpers.create_space()
 
 # Start conversation with CharacterAgent
@@ -41,6 +43,8 @@ input(f"\nPress {ConsoleHelpers.make_cursive("Enter")} to continue...")
 print(ConsoleHelpers.make_cursive("generating...\n"))
 character_information = character_agent.generate_response()
 print(ConsoleHelpers.convert_to_block_text(character_information))
+input(f"\nPress {ConsoleHelpers.make_cursive("Enter")} to continue...")
+print(ConsoleHelpers.make_cursive("generating...\n"))
 ConsoleHelpers.create_space()
 
 # Start conversation with EventAgent

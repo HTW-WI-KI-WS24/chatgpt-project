@@ -67,4 +67,5 @@ class CentralAgent(Agent):
 
         print()
         print(ConsoleHelpers.convert_to_block_text(self.attach_name(self.conversation_summary)))
-        print()
+        input(f"\nPress {ConsoleHelpers.make_cursive("Enter")} to continue...")
+
