@@ -1,6 +1,6 @@
 import customtkinter as ctk
 import time
-from agents.CentralAgent import CentralAgent
+from src.agents.CentralAgent import CentralAgent
 from openai import OpenAI
 
 client = OpenAI()

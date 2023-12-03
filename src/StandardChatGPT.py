@@ -1,5 +1,6 @@
 from openai import OpenAI
 
+
 class StandardChatGPT:
     def __init__(self):
         self.client = OpenAI()
