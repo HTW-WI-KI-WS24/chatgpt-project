@@ -59,8 +59,8 @@ class CentralAgent(Agent):
         )
         response: str = self.take_input_and_generate_response(
             """
-            Summarize what I have envisioned for my book without adding things to it. Only cover the information that 
-            you are supposed to ascertain according to your role.
+            Summarize what I have envisioned for my book. Only cover the information that you are supposed to ascertain
+            according to your role.
             """
         )
         self.conversation_summary = response
@@ -68,4 +68,3 @@ class CentralAgent(Agent):
         print()
         print(ConsoleHelpers.convert_to_block_text(self.attach_name(self.conversation_summary)))
         input(f"\nPress {ConsoleHelpers.make_cursive("Enter")} to continue...")
-
