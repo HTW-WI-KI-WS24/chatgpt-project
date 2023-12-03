@@ -37,26 +37,22 @@ class Agent(ABC):
         self.context.append({"role": "user", "content": user_input})
 
     def generate_response(self) -> str:
-        print("~went into generate response")
         completion = self.client.chat.completions.create(model=self.model, messages=self.context)
-        print("~did completion")
         response: str = completion.choices[0].message.content
-        print("~extracted response")
         self.context.append({"role": "assistant", "content": response})
-        print("~appended response")
-        return self.attach_name(response)
+        return response
 
     def summarize_conversation(self):
-        self.context.append(
-            {"role": "user", "content":
-                "Concisely summarize what I have envisioned for my book without adding things to it. Only cover the" +
-                "information that you are supposed to ascertain according to your role."}
+        response: str = self.take_input_and_generate_response(
+            """
+            Summarize what I have envisioned for my book without adding things to it. Only cover the information that 
+            you are supposed to ascertain according to your role. 
+            
+            If the user didnt give enough information to cover a general idea in the way you are supposed to check for. 
+            Fill in the missing parts.
+            """
         )
-        completion = self.client.chat.completions.create(
-            model=self.model,
-            messages=self.context
-        )
-        self.conversation_summary = completion.choices[0].message.content
+        self.conversation_summary = response
 
         print()
         print(ConsoleHelpers.convert_to_block_text(self.conversation_summary))

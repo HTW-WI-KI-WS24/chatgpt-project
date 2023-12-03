@@ -36,24 +36,13 @@ class CentralAgent(Agent):
                 break
             else:
                 print()
-                print(ConsoleHelpers.convert_to_block_text(self.take_input_and_generate_response(user_input)))
+                print(
+                    ConsoleHelpers.convert_to_block_text(
+                        self.attach_name(
+                            self.take_input_and_generate_response(user_input)
+                        )
+                    )
+                )
                 print()
 
         return
-
-    def summarize_conversation(self):
-        self.context.append(
-            {"role": "user", "content":
-                "Concisely summarize what I have envisioned for my book without adding things to it. Only cover the" +
-                "information that you are supposed to ascertain according to your role. If the user didnt give enough" +
-                "information to cover a general idea in the way you are supposed to check for. Fill the missing parts"}
-        )
-        completion = self.client.chat.completions.create(
-            model=self.model,
-            messages=self.context
-        )
-        self.conversation_summary = completion.choices[0].message.content
-
-        print()
-        print(ConsoleHelpers.convert_to_block_text(self.conversation_summary))
-        print()
