@@ -37,9 +37,13 @@ class Agent(ABC):
         self.context.append({"role": "user", "content": user_input})
 
     def generate_response(self) -> str:
+        print("~went into generate response")
         completion = self.client.chat.completions.create(model=self.model, messages=self.context)
+        print("~did completion")
         response: str = completion.choices[0].message.content
+        print("~extracted response")
         self.context.append({"role": "assistant", "content": response})
+        print("~appended response")
         return self.attach_name(response)
 
     def summarize_conversation(self):

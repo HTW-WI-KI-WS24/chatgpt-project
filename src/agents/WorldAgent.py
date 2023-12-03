@@ -22,4 +22,4 @@ class WorldAgent(Agent):
         self.context.append({"role": "user", "content": central_agent_summary})
 
     def generate_world(self):
-        self.generate_response()
+        return self.take_input_and_generate_response("Please generate a world based on my general idea.")
