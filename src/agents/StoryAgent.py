@@ -19,7 +19,7 @@ class StoryAgent(Agent):
                 clichés and ensuring the narrative flows organically. Your goal is to deliver a storyline that 
                 keeps the audience engaged from start to finish.
                 """,
-            opening_statement_instructions="Greet me and explain shortly what your Role is. Max 3 Sentences"
+            opening_statement_instructions="Greet me and explain to me in about three sentences, what your role is."
         )
         self.context.append({"role": "user", "content": world_agent_summary})
         self.context.append({"role": "user", "content": character_agent_summary})

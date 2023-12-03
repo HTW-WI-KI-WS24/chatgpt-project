@@ -16,7 +16,7 @@ class AuthorAgent(Agent):
                 structure and a summary of the preceding chapter. Your task is to seamlessly integrate these elements 
                 into the existing narrative, maintaining a consistent writing style throughout.
                 """,
-            opening_statement_instructions="Greet me and explain shortly what your Role is. Max 3 Sentences"
+            opening_statement_instructions="Greet me and explain to me in about three sentences, what your role is."
         )
         self.context.append({"role": "user", "content": structure_agent_summary})
         self.context.append({"role": "user", "content": recent_chapters_summary})

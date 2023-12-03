@@ -40,7 +40,7 @@ def convert_to_block_text(
     return block_text
 
 
-def print_line(length: int = 120):
+def print_line(length: int = 119) -> None:
     line_string = ""
 
     for i in range(int(length/2)):
@@ -52,3 +52,12 @@ def print_line(length: int = 120):
         line_string += "="
 
     print(line_string)
+
+
+def make_cursive(text: str) -> str:
+    return f"\x1B[3m{text}\x1B[0m"
+
+
+def create_space(number_of_lines: int = 3):
+    for i in range(number_of_lines):
+        print()

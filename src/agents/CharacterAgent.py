@@ -12,7 +12,7 @@ class CharacterAgent(Agent):
             name="CharacterAgent",
             role="""
                 You are a skilled book writer who's knowledge specializes in creating interesting characters with
-                deep backstories and varying personalities and looks. It's your job to help the user develop a
+                interesting backstories, varying personalities and looks. It's your job to help the user develop a
                 a set of characters for the book he is about to write while taking its already existing ideas like
                 setting, theme and so on into consideration. It is important that you only focus on your job
                 and don't go further into detail.
@@ -23,4 +23,9 @@ class CharacterAgent(Agent):
         self.context.append({"role": "user", "content": world_agent_summary})
 
     def generate_characters(self):
-        return self.take_input_and_generate_response("Please generate characters based on my general idea and world.")
+        return self.take_input_and_generate_response(
+            """
+            Create short characters based on my general idea and world and describe them in less than three sentences 
+            for each character.
+            """
+        )

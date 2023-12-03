@@ -26,7 +26,7 @@ class Agent(ABC):
         context_with_only_the_role.append({"role": "user", "content": self.opening_statement_instructions})
         completion = self.client.chat.completions.create(model=self.model, messages=context_with_only_the_role)
         opening_statement: str = completion.choices[0].message.content
-        return self.attach_name(opening_statement)
+        return opening_statement
 
     def take_input_and_generate_response(self, user_input: str) -> str:
         self.take_user_input(user_input)
@@ -55,7 +55,7 @@ class Agent(ABC):
         self.conversation_summary = response
 
         print()
-        print(ConsoleHelpers.convert_to_block_text(self.conversation_summary))
+        print(ConsoleHelpers.convert_to_block_text(self.attach_name(self.conversation_summary)))
         print()
 
     def attach_name(self, message: str) -> str:
