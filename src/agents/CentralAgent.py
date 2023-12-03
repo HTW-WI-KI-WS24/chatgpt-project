@@ -50,13 +50,16 @@ class CentralAgent(Agent):
         return
 
     def summarize_conversation(self):
+        self.take_user_input(
+            """
+            For all the points I have not given you information on, generate examples and use the first one of every
+            point for my book.
+            """
+        )
         response: str = self.take_input_and_generate_response(
             """
             Summarize what I have envisioned for my book without adding things to it. Only cover the information that 
-            you are supposed to ascertain according to your role. 
-            
-            If the user didnt give enough information to cover a general idea in the way you are supposed to check for. 
-            Fill in the missing parts.
+            you are supposed to ascertain according to your role.
             """
         )
         self.conversation_summary = response
