@@ -9,7 +9,7 @@ from src.utils import ConsoleHelpers
 
 # Greet and introduce user
 ConsoleHelpers.print_line()
-print(BookGPT.welcome_message)
+print(ConsoleHelpers.convert_to_block_text(BookGPT.welcome_message))
 ConsoleHelpers.press_enter_to_continue()
 ConsoleHelpers.create_space()
 

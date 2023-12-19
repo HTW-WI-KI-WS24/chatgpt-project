@@ -1,5 +1,6 @@
 from abc import ABC
 from openai import OpenAI
+from copy import deepcopy
 
 from src.utils import ConsoleHelpers
 
@@ -28,11 +29,15 @@ class Agent(ABC):
         self.context.append({"role": role, "content": content})
 
     def generate_opening_statement(self) -> str:
-        context_with_only_the_role: list[dict[str, str]] = self.context.copy()[:1]
+        context_with_only_the_role: list[dict[str, str]] = self.get_context_copy()[:1]
         context_with_only_the_role.append({"role": "user", "content": self.opening_statement_instructions})
         completion = self.client.chat.completions.create(model=self.model, messages=context_with_only_the_role)
         opening_statement: str = completion.choices[0].message.content
         return opening_statement
+
+    def get_context_copy(self) -> list[dict[str, str]]:
+        context_copy: list[dict[str, str]] = deepcopy(self.context)
+        return context_copy
 
     def take_input_and_generate_response(self, user_input: str) -> str:
         self.take_user_input(user_input)
@@ -61,3 +66,19 @@ class Agent(ABC):
         response_with_name_as_block_text: str = ConsoleHelpers.convert_to_block_text(response_with_name)
         return response_with_name_as_block_text
 
+    def has_user_asked_to_end_conversation(self):
+        context_copy: list[dict[str, str]] = self.get_context_copy()
+        context_copy.append(
+            {
+                "role": "user",
+                "content": ("If I want to move on, skip to the next process or end the conversation: "
+                            "Respond with \"1\". If not: Respond with \"0\".")
+            }
+        )
+        completion = self.client.chat.completions.create(model=self.model, messages=context_copy)
+        response: str = completion.choices[0].message.content
+
+        should_end_conversation: bool = False
+        if response == "1":
+            should_end_conversation = True
+        return should_end_conversation

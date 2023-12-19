@@ -27,8 +27,12 @@ class CentralAgent(Agent):
 
         while True:
             user_input = input()
+            self.take_user_input(user_input)
 
-            if InputChecker.should_skip_process(user_input):
+            if self.has_user_asked_to_end_conversation():
+                self.summarize_conversation()
+                break
+            elif InputChecker.should_skip_process(user_input):
                 self.summarize_conversation()
                 break
             elif InputChecker.should_repeat_process(user_input):
