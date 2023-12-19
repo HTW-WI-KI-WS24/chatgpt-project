@@ -20,7 +20,7 @@ ConsoleHelpers.create_space()
 
 # Start conversation with WorldAgent
 world_agent = WorldAgent(central_agent.conversation_summary)
-print(ConsoleHelpers.convert_to_block_text((world_agent.attach_name(world_agent.generate_opening_statement()))))
+print(world_agent.attach_name_and_convert_to_block_text(world_agent.opening_statement))
 ConsoleHelpers.press_enter_to_continue()
 print(BookGPT.waiting_for_generation_message)
 world_information = world_agent.generate_world()
@@ -31,7 +31,7 @@ ConsoleHelpers.create_space()
 
 # Start conversation with CharacterAgent
 character_agent = CharacterAgent(central_agent.conversation_summary, world_information)
-print(ConsoleHelpers.convert_to_block_text((character_agent.attach_name(character_agent.generate_opening_statement()))))
+print(character_agent.attach_name_and_convert_to_block_text(character_agent.opening_statement))
 ConsoleHelpers.press_enter_to_continue()
 print(BookGPT.waiting_for_generation_message)
 character_information = character_agent.generate_response()
@@ -42,7 +42,7 @@ ConsoleHelpers.create_space()
 
 # Start conversation with EventAgent
 event_agent = EventAgent(world_information, character_information)
-print(ConsoleHelpers.convert_to_block_text((event_agent.attach_name(event_agent.generate_opening_statement()))))
+print(event_agent.attach_name_and_convert_to_block_text(event_agent.opening_statement))
 ConsoleHelpers.press_enter_to_continue()
 print(BookGPT.waiting_for_generation_message)
 event_information = event_agent.generate_end_of_story()

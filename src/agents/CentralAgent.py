@@ -23,7 +23,7 @@ class CentralAgent(Agent):
 
     def conduct_conversation(self):
         ConsoleHelpers.print_command_list()
-        print(ConsoleHelpers.convert_to_block_text(self.attach_name(self.generate_opening_statement())) + "\n")
+        print(self.attach_name_and_convert_to_block_text(self.opening_statement) + "\n")
 
         while True:
             user_input = input()
@@ -37,8 +37,7 @@ class CentralAgent(Agent):
                 break
             else:
                 response: str = self.take_input_and_generate_response(user_input)
-                post_processed_response: str = self.attach_name_and_convert_to_block_text(response)
-                print("\n" + post_processed_response + "\n")
+                print("\n" + self.attach_name_and_convert_to_block_text(response) + "\n")
 
         return
 

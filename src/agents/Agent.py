@@ -17,10 +17,15 @@ class Agent(ABC):
         self.name: str = name
         self.role: str = role
         self.opening_statement_instructions: str = opening_statement_instructions
+        self.opening_statement: str = ""
         self.context: list[dict[str, str]] = []
         self.conversation_summary: str = ""
 
-        self.context.append({"role": "system", "content": self.role})
+        self.add_to_context("system", self.role)
+        self.opening_statement = self.generate_opening_statement()
+
+    def add_to_context(self, role: str, content: str):
+        self.context.append({"role": role, "content": content})
 
     def generate_opening_statement(self) -> str:
         context_with_only_the_role: list[dict[str, str]] = self.context.copy()[:1]
