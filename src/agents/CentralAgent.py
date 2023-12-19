@@ -29,7 +29,7 @@ class CentralAgent(Agent):
             user_input = input()
             self.take_user_input(user_input)
 
-            if self.has_user_asked_to_end_conversation():
+            if self.has_user_asked_to_end_conversation() or self.has_user_given_enough_information():
                 self.summarize_conversation()
                 break
             elif InputChecker.should_skip_process(user_input):
@@ -62,3 +62,20 @@ class CentralAgent(Agent):
 
         print("\n" + ConsoleHelpers.convert_to_block_text(self.attach_name(self.conversation_summary)))
         ConsoleHelpers.press_enter_to_continue()
+
+    def has_user_given_enough_information(self):
+        context_copy: list[dict[str, str]] = self.get_context_copy()
+        context_copy.append(
+            {
+                "role": "user",
+                "content": ("If I have given you enough information on the points you are supposed to discuss with me."
+                            "Respond with \"1\". If not: Respond with \"0\"")
+            }
+        )
+        completion = self.client.chat.completions.create(model=self.model, messages=context_copy)
+        response: str = completion.choices[0].message.content
+
+        has_user_given_enough_information: bool = False
+        if response == "1":
+            has_user_given_enough_information = True
+        return has_user_given_enough_information
