@@ -1,5 +1,6 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 from openai import OpenAI
+
 from src.utils import ConsoleHelpers
 
 
@@ -44,3 +45,14 @@ class Agent(ABC):
 
     def attach_name(self, message: str) -> str:
         return f"[{self.name}]: {message}"
+
+    def reset_context(self) -> None:
+        context_but_only_the_role_description: list[dict[str, str]] = self.context[:1]
+        self.context = context_but_only_the_role_description
+
+    def attach_name_and_convert_to_block_text(self, agent_response: str) -> str:
+        response: str = agent_response
+        response_with_name: str = self.attach_name(response)
+        response_with_name_as_block_text: str = ConsoleHelpers.convert_to_block_text(response_with_name)
+        return response_with_name_as_block_text
+

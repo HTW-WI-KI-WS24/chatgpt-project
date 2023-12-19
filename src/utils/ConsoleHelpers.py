@@ -61,3 +61,7 @@ def make_cursive(text: str) -> str:
 def create_space(number_of_lines: int = 3):
     for i in range(number_of_lines):
         print()
+
+
+def press_enter_to_continue() -> None:
+    input(f"\nPress {make_cursive("Enter")} to continue...")

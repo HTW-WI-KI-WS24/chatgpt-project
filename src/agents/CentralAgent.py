@@ -23,8 +23,7 @@ class CentralAgent(Agent):
 
     def conduct_conversation(self):
         ConsoleHelpers.print_command_list()
-        print(ConsoleHelpers.convert_to_block_text(self.attach_name(self.generate_opening_statement())))
-        print()
+        print(ConsoleHelpers.convert_to_block_text(self.attach_name(self.generate_opening_statement())) + "\n")
 
         while True:
             user_input = input()
@@ -33,19 +32,13 @@ class CentralAgent(Agent):
                 self.summarize_conversation()
                 break
             elif InputChecker.should_repeat_process(user_input):
-                self.context = self.context[:1]  # Clears all the context except the role description.
+                self.reset_context()
                 self.conduct_conversation()
                 break
             else:
-                print()
-                print(
-                    ConsoleHelpers.convert_to_block_text(
-                        self.attach_name(
-                            self.take_input_and_generate_response(user_input)
-                        )
-                    )
-                )
-                print()
+                response: str = self.take_input_and_generate_response(user_input)
+                post_processed_response: str = self.attach_name_and_convert_to_block_text(response)
+                print("\n" + post_processed_response + "\n")
 
         return
 
@@ -57,14 +50,12 @@ class CentralAgent(Agent):
             point for my book.
             """
         )
-        response: str = self.take_input_and_generate_response(
+        self.conversation_summary: str = self.take_input_and_generate_response(
             """
             Summarize what I have envisioned for my book. Only cover the information that you are supposed to ascertain
             according to your role.
             """
         )
-        self.conversation_summary = response
 
-        print()
-        print(ConsoleHelpers.convert_to_block_text(self.attach_name(self.conversation_summary)))
-        input(f"\nPress {ConsoleHelpers.make_cursive("Enter")} to continue...")
+        print("\n" + ConsoleHelpers.convert_to_block_text(self.attach_name(self.conversation_summary)))
+        ConsoleHelpers.press_enter_to_continue()

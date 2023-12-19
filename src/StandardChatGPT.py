@@ -19,4 +19,3 @@ class StandardChatGPT:
         self.context.append({"role": "assistant", "content": response})
 
         return f"[{self.name}]: {response}"
-
