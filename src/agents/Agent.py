@@ -29,9 +29,9 @@ class Agent(ABC):
         self.context.append({"role": role, "content": content})
 
     def generate_opening_statement(self) -> str:
-        context_with_only_the_role: list[dict[str, str]] = self.get_context_copy()[:1]
-        context_with_only_the_role.append({"role": "user", "content": self.opening_statement_instructions})
-        completion = self.client.chat.completions.create(model=self.model, messages=context_with_only_the_role)
+        context_with_only_the_agents_role: list[dict[str, str]] = self.get_context_copy()[:1]
+        context_with_only_the_agents_role.append({"role": "user", "content": self.opening_statement_instructions})
+        completion = self.client.chat.completions.create(model=self.model, messages=context_with_only_the_agents_role)
         opening_statement: str = completion.choices[0].message.content
         return opening_statement
 
@@ -60,13 +60,16 @@ class Agent(ABC):
         context_but_only_the_role_description: list[dict[str, str]] = self.context[:1]
         self.context = context_but_only_the_role_description
 
+    def agent_print(self, text: str) -> None:
+        print(self.attach_name_and_convert_to_block_text(text))
+
     def attach_name_and_convert_to_block_text(self, agent_response: str) -> str:
         response: str = agent_response
         response_with_name: str = self.attach_name(response)
         response_with_name_as_block_text: str = ConsoleHelpers.convert_to_block_text(response_with_name)
         return response_with_name_as_block_text
 
-    def has_user_asked_to_end_conversation(self):
+    def has_user_asked_to_end_conversation(self): # doesn't work for now
         context_copy: list[dict[str, str]] = self.get_context_copy()
         context_copy.append(
             {

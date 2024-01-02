@@ -2,10 +2,11 @@ from openai import OpenAI
 
 
 class StandardChatGPT:
-    def __init__(self):
+    def __init__(self, context=None):
         self.client = OpenAI()
         self.name = "ChatGPT"
-        self.context = []
+        if context is None:
+            self.context = []
 
     def generate_response(self, user_request):
         self.context.append({"role": "user", "content": user_request})
@@ -18,4 +19,7 @@ class StandardChatGPT:
 
         self.context.append({"role": "assistant", "content": response})
 
-        return f"[{self.name}]: {response}"
+        return response
+
+    def reset_context(self) -> None:
+        self.context = []

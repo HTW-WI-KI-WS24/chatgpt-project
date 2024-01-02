@@ -9,10 +9,10 @@ def print_command_list(
     print_line()
 
     if can_process_be_skipped:
-        print(f"\tIf you would like to continue with the next process, please enter \"{InputChecker.skip_command}\".")
+        print(f"\tIf you would like to skip the current process, please enter \"{InputChecker.skip_command}\".")
 
     if can_process_be_repeat:
-        print(f"\tIf you wish to repeat this process, please enter \"{InputChecker.repeat_command}\".")
+        print(f"\tIf you wish to repeat the current process, please enter \"{InputChecker.repeat_command}\".")
 
     print_line()
 
@@ -65,3 +65,7 @@ def create_space(number_of_lines: int = 3):
 
 def press_enter_to_continue() -> None:
     input(f"\nPress {make_cursive("Enter")} to continue...")
+
+
+def print_waiting_for_generation_message() -> None:
+    print(make_cursive("generating...\n"))
