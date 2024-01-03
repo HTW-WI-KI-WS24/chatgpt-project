@@ -10,7 +10,7 @@ class Agent(ABC):
             self,
             name: str,
             role: str,
-            opening_statement_instructions: str,
+            opening_statement_instructions: str = "",
             model: str = "gpt-3.5-turbo"
     ):
         self.client = OpenAI()
@@ -23,7 +23,8 @@ class Agent(ABC):
         self.conversation_summary: str = ""
 
         self.add_to_context("system", self.role)
-        self.opening_statement = self.generate_opening_statement()
+        if self.opening_statement_instructions != "":
+            self.opening_statement = self.generate_opening_statement()
 
     def add_to_context(self, role: str, content: str):
         self.context.append({"role": role, "content": content})
