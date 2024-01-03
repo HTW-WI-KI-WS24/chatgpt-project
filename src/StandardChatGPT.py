@@ -5,10 +5,9 @@ class StandardChatGPT:
     def __init__(self, context=None):
         self.client = OpenAI()
         self.name = "ChatGPT"
-        self.context = None
-        if context is None:
+        self.context = context
+        if self.context is None:
             self.context = []
-
 
     def generate_response(self, user_request):
         self.context.append({"role": "user", "content": user_request})
