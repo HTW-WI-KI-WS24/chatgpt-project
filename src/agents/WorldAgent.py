@@ -1,11 +1,9 @@
 from src.agents.Agent import Agent
+from src.utils import ConsoleHelpers
 
 
 class WorldAgent(Agent):
-    def __init__(
-            self,
-            central_agent_summary: str
-    ):
+    def __init__(self, central_agent_summary: str):
         super().__init__(
             name="WorldAgent",
             role="""
@@ -21,9 +19,14 @@ class WorldAgent(Agent):
                 """,
             opening_statement_instructions="Greet me and explain to me in about three sentences, what your role is."
         )
-        self.context.append({"role": "user", "content": central_agent_summary})
+
+        self.take_user_input(central_agent_summary)
+
+    def start_conversation(self):
+        ConsoleHelpers.print_command_list()
+        self.agent_print(self.opening_statement)
+        self.conduct_conversation()
 
     def generate_world(self):
-        return self.take_input_and_generate_response(
-            "Create a world based on my general idea for the book and describe it in less than six sentences!"
-        )
+        return self.take_input_and_generate_response(("Create a world based on my general idea for the book and "
+                                                      "describe it in less than six sentences!"))

@@ -2,11 +2,7 @@ from src.agents.Agent import Agent
 
 
 class AuthorAgent(Agent):
-    def __init__(
-            self,
-            structure_agent_summary: str,
-            recent_chapters_summary: str
-    ):
+    def __init__(self, structure_agent_summary: str, recent_chapters_summary: str):
         super().__init__(
             name="AuthorAgent",
             role="""

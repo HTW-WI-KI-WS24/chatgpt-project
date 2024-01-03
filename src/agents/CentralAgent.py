@@ -67,7 +67,7 @@ class CentralAgent(Agent):
         return response == "1"
 
     def has_user_given_enough_information(self) -> bool:
-        context_copy = self.get_context_copy()
+        context_copy: list[dict[str, str]] = self.get_context_copy()
 
         chat_gpt = StandardChatGPT(context_copy)
         response: str = chat_gpt.generate_response(

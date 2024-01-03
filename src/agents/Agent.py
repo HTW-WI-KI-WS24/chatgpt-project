@@ -69,7 +69,7 @@ class Agent(ABC):
         response_with_name_as_block_text: str = ConsoleHelpers.convert_to_block_text(response_with_name)
         return response_with_name_as_block_text
 
-    def has_user_asked_to_end_conversation(self): # doesn't work for now
+    def has_user_asked_to_end_conversation(self):  # doesn't work for now
         context_copy: list[dict[str, str]] = self.get_context_copy()
         context_copy.append(
             {

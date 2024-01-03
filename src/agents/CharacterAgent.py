@@ -3,11 +3,7 @@ from src.utils import InputChecker, ConsoleHelpers
 
 
 class CharacterAgent(Agent):
-    def __init__(
-            self,
-            central_agent_summary: str,
-            world_agent_summary: str
-    ):
+    def __init__(self, central_agent_summary: str, world_agent_summary: str):
         super().__init__(
             name="CharacterAgent",
             role="""

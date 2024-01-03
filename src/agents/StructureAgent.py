@@ -1,13 +1,9 @@
 from src.agents.Agent import Agent
 from src.utils import ConsoleHelpers, InputChecker
 
+
 class StructureAgent(Agent):
-    def __init__(
-            self,
-            #Story from the Story Agent
-            story: str
-            
-    ):
+    def __init__(self, story: str):
         super().__init__(
             name="StructureAgent",
             role="""

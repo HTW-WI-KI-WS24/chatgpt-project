@@ -2,12 +2,7 @@ from src.agents.Agent import Agent
 
 
 class StoryAgent(Agent):
-    def __init__(
-            self,
-            world_agent_summary: str,
-            character_agent_summary: str,
-            context_ending_summary: str
-    ):
+    def __init__(self, world_agent_summary: str, character_agent_summary: str, context_ending_summary: str):
         super().__init__(
             name="StoryAgent",
             role="""
