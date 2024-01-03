@@ -6,6 +6,7 @@ class StandardChatGPT:
         self.client = OpenAI()
         self.name = "ChatGPT"
         self.context = context
+
         if self.context is None:
             self.context = []
 

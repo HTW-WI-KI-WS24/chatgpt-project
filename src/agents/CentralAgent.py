@@ -37,7 +37,7 @@ class CentralAgent(Agent):
             self.end_conversation()
         elif InputChecker.should_repeat_process(user_input):
             self.reset_context()
-            self.conduct_conversation()
+            self.start_conversation()
         else:
             self.agent_print(self.generate_response())
             self.conduct_conversation()
@@ -67,7 +67,7 @@ class CentralAgent(Agent):
         return response == "1"
 
     def has_user_given_enough_information(self) -> bool:
-        context_copy: list[dict[str, str]] = self.get_context_copy()
+        context_copy = self.get_context_copy()
 
         chat_gpt = StandardChatGPT(context_copy)
         response: str = chat_gpt.generate_response(
