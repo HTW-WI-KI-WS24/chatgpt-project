@@ -31,6 +31,7 @@ class EventAgent(Agent):
         self.agent_print("""I have designed the following ending for you. 
                          If you are not satisfied with the ending or would like to make changes, please let me know. 
                          For example, if you want to kill a character, you can do it here completely legally ;)""")
+        self.generate_end_of_story()
         self.conduct_conversation()
 
     def conduct_conversation(self):
@@ -46,7 +47,6 @@ class EventAgent(Agent):
             self.start_conversation()
         else:
             self.final_event = self.generate_response()
-            self.agent_print(self.final_event)
             self.conduct_conversation()
 
     def summarize_conversation(self):
