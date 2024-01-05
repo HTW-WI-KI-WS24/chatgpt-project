@@ -54,7 +54,7 @@ def print_line(length: int = 119) -> None:
     print(line_string)
 
 
-def make_cursive(text: str) -> str:
+def make_cursive(text: str) -> str:  # doesn't work for Jonas and Khanh
     return f"\x1B[3m{text}\x1B[0m"
 
 
@@ -67,7 +67,7 @@ def press_enter_to_continue(empty_lines_before_press_enter_request: int = 1) -> 
     for i in range(empty_lines_before_press_enter_request):
         print()
 
-    input(f"Press {make_cursive("Enter")} to continue...")
+    input(f"Press Enter to continue...")
 
 
 def print_waiting_for_generation_message(
