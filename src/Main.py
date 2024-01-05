@@ -1,15 +1,15 @@
 # import streamlit as st
 
-from src.BookGPT import introduce_application
-from src.agents.CentralAgent import CentralAgent
-from src.agents.CharacterAgent import CharacterAgent
-from src.agents.EventAgent import EventAgent
-from src.agents.WorldAgent import WorldAgent
-from src.utils import ConsoleHelpers
+import BookGPT
+from agents.CentralAgent import CentralAgent
+from agents.CharacterAgent import CharacterAgent
+from agents.EventAgent import EventAgent
+from agents.WorldAgent import WorldAgent
+from utils import ConsoleHelpers
 
 # Greet and introduce user
 ConsoleHelpers.print_line()
-introduce_application()
+BookGPT.introduce_application()
 ConsoleHelpers.create_space()
 
 # Start conversation with CentralAgent

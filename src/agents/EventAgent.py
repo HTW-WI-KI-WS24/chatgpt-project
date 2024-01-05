@@ -1,5 +1,3 @@
-from openai import OpenAI
-from src.StandardChatGPT import StandardChatGPT
 from src.utils import ConsoleHelpers, InputChecker
 from src.agents.Agent import Agent
 

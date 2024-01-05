@@ -1,5 +1,4 @@
 from src.agents.Agent import Agent
-from src.utils import ConsoleHelpers, InputChecker
 
 
 class StructureAgent(Agent):
