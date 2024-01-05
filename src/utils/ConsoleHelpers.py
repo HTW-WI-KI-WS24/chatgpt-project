@@ -58,14 +58,35 @@ def make_cursive(text: str) -> str:
     return f"\x1B[3m{text}\x1B[0m"
 
 
-def create_space(number_of_lines: int = 3):
+def create_space(number_of_lines: int = 5):
     for i in range(number_of_lines):
         print()
 
 
-def press_enter_to_continue() -> None:
-    input(f"\nPress {make_cursive("Enter")} to continue...")
+def press_enter_to_continue(empty_lines_before_press_enter_request: int = 1) -> None:
+    for i in range(empty_lines_before_press_enter_request):
+        print()
+
+    input(f"Press {make_cursive("Enter")} to continue...")
 
 
-def print_waiting_for_generation_message() -> None:
-    print(make_cursive("generating...\n"))
+def print_waiting_for_generation_message(
+        empty_lines_before_generating_message: int = 1,
+        empty_lines_after_generating_message: int = 1
+) -> None:
+    for i in range(empty_lines_before_generating_message):
+        print()
+
+    print(make_cursive("generating..."))
+
+    for i in range(empty_lines_after_generating_message):
+        print()
+
+
+def get_user_input(empty_lines_before_input_request: int = 1) -> str:
+    for i in range(empty_lines_before_input_request):
+        print()
+
+    print("Type here: ", end="")
+    user_input: str = input()
+    return user_input

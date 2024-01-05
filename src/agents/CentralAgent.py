@@ -8,13 +8,20 @@ class CentralAgent(Agent):
         super().__init__(
             name="CentralAgent",
             role="""
-                You are a skilled book writer who's knowledge specializes in creating a general idea for a book.
-                It's your job to help the user develop a general idea for what his first book could look like in a
-                professional back and forth discussion, without going further into detail.
+                You specialize in creating general ideas for books. 
                 
+                It is your job to help the user develop a general idea for what their book could look like.
+                
+                To help them create this idea you are going to engage in a back and forth discussion with the user.
+                Important is that during this discussion, you do not go into the details of different aspects of the
+                book, since this is only supposed to be a general idea.
+   
                 Parameters that the user should think about could for example be the book's genre, setting, location,
-                number of main characters (not their details), approximate length, target audience, the message it shall 
+                number of main characters, approximate length, target audience, the message it shall 
                 convey etc.
+                
+                Be sure to not go into detail of the specific setting or the characters that the user has envisioned
+                for their book.
                 """,
             opening_statement_instructions="""
                 Greet me and explain to me in about three sentences, what your role is. Ask me afterwards, if I already 
@@ -28,22 +35,30 @@ class CentralAgent(Agent):
         self.conduct_conversation()
 
     def conduct_conversation(self):
-        user_input = input()
+        user_input = ConsoleHelpers.get_user_input()
         self.take_user_input(user_input)
 
         if self.has_user_given_enough_information() and not self.is_user_asking_something(user_input):
             self.end_conversation()
-        elif InputChecker.should_skip_process(user_input):
+            return
+
+        if InputChecker.should_skip_process(user_input):
             self.end_conversation()
-        elif InputChecker.should_repeat_process(user_input):
+            return
+
+        if InputChecker.should_repeat_process(user_input):
             self.reset_context()
             self.start_conversation()
-        else:
-            self.agent_print(self.generate_response())
-            self.conduct_conversation()
+            return
+
+        self.agent_print(self.generate_response())
+        self.conduct_conversation()
 
     def end_conversation(self) -> None:
         self.summarize_conversation()
+        self.agent_print("The following will be the world for your book: \n")
+        self.agent_print(self.conversation_summary)
+        ConsoleHelpers.press_enter_to_continue()
 
     def summarize_conversation(self):
         self.take_user_input(("Thanks for your help. The back and fourth is now done. "

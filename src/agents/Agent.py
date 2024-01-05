@@ -30,6 +30,7 @@ class Agent(ABC):
         self.context.append({"role": role, "content": content})
 
     def generate_opening_statement(self) -> str:
+        ConsoleHelpers.print_waiting_for_generation_message()
         context_with_only_the_agents_role: list[dict[str, str]] = self.get_context_copy()[:1]
         context_with_only_the_agents_role.append({"role": "user", "content": self.opening_statement_instructions})
         completion = self.client.chat.completions.create(model=self.model, messages=context_with_only_the_agents_role)
@@ -49,6 +50,7 @@ class Agent(ABC):
         self.context.append({"role": "user", "content": user_input})
 
     def generate_response(self) -> str:
+        ConsoleHelpers.print_waiting_for_generation_message()
         completion = self.client.chat.completions.create(model=self.model, messages=self.context)
         response: str = completion.choices[0].message.content
         self.context.append({"role": "assistant", "content": response})
