@@ -1,4 +1,4 @@
-from src.utils import ConsoleHelpers
+from src.utils.ConsoleHelpers import convert_to_block_text, press_enter_to_continue
 
 welcome_message: str = ("[BookGPT]: Welcome! "
                         "This software supports you in writing any book you can imagine. "
@@ -8,5 +8,5 @@ welcome_message: str = ("[BookGPT]: Welcome! "
 
 
 def introduce_application() -> None:
-    print(ConsoleHelpers.convert_to_block_text(welcome_message))
-    ConsoleHelpers.press_enter_to_continue()
+    print(convert_to_block_text(welcome_message))
+    press_enter_to_continue()
