@@ -12,11 +12,12 @@ class WorldAgent(Agent):
                 It is your job to design a captivating world that builds onto the general idea that the user has
                 for their book.
                 
-                After you have developed a world for the users book, propose it to the user and let them give
-                you their opinions on thw world that you have created. Engage in a back and forth discussion
-                with the user where you integrate the users feedback into the new worlds you create.
-                If you have proposed a world to the user and they ask you to integrate something into the world.
-                Integrate the given thing into your created world and propose the adjusted version.
+                After you have developed a world for the users book, propose it to the user in less than eight 
+                sentences and let them give you their opinions on thw world that you have created. Engage in a 
+                back and forth discussion with the user where you integrate the users feedback into the new worlds 
+                you create. If you have proposed a world to the user and they ask you to integrate something into the 
+                world. Integrate the given thing into your created world and propose the adjusted version in less than
+                eight sentences.
         
                 The world should not only be captivating but also described in a way that the user can feel
                 the world as they read its description.
@@ -36,7 +37,7 @@ class WorldAgent(Agent):
         self.conduct_conversation()
 
     def conduct_conversation(self):
-        self.agent_print(self.generate_world())
+        self.agent_print(self.generate_response())
 
         user_input: str = ConsoleHelpers.get_user_input()
 
@@ -49,11 +50,8 @@ class WorldAgent(Agent):
             self.start_conversation()
             return
 
+        self.take_user_input(user_input)
         self.conduct_conversation()
-
-    def generate_world(self):
-        return self.take_input_and_generate_response(("Create a world based on my general idea for the book, "
-                                                      "describe it in less than six sentences and propose it to me!"))
 
     def end_conversation(self) -> None:
         self.summarize_conversation()
