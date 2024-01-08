@@ -12,8 +12,8 @@ class WorldAgent(Agent):
                 It is your job to design a captivating world that builds onto the general idea that the user has
                 for their book.
                 
-                After you have developed a world for the users book, propose it to the user in less than eight 
-                sentences and let them give you their opinions on thw world that you have created. Engage in a 
+                After you have developed a world for the users book, propose it to the user in less than seven 
+                sentences and let them give you their opinions on the world that you have created. Engage in a 
                 back and forth discussion with the user where you integrate the users feedback into the new worlds 
                 you create. If you have proposed a world to the user and they ask you to integrate something into the 
                 world. Integrate the given thing into your created world and propose the adjusted version in less than
@@ -23,9 +23,8 @@ class WorldAgent(Agent):
                 the world as they read its description.
                 """,
             opening_statement_instructions=("Greet me and explain to me in about three sentences, what your role is. "
-                                            "Also tell me that you are going to propose a first idea to the user and "
-                                            "tell the user that they can request changes as they like."),
-            model="gpt-4-1106-preview"
+                                            "Also tell me that you are going to propose a first idea and "
+                                            "tell me that I can request changes as I like.")
         )
 
         self.take_user_input(central_agent_summary)
@@ -55,7 +54,7 @@ class WorldAgent(Agent):
 
     def end_conversation(self) -> None:
         self.summarize_conversation()
-        self.agent_print("The following will be the world for your book: \n")
+        self.agent_print("The following will be the world for your book:\n")
         self.agent_print(self.conversation_summary)
         ConsoleHelpers.press_enter_to_continue()
 

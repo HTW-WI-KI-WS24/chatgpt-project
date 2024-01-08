@@ -25,15 +25,11 @@ ConsoleHelpers.create_space()
 
 # Start conversation with CharacterAgent
 character_agent = CharacterAgent(central_agent.conversation_summary, world_agent.conversation_summary)
-character_agent.agent_print(character_agent.opening_statement)
-ConsoleHelpers.press_enter_to_continue()
-character_information = character_agent.generate_response()
-character_agent.agent_print(character_information)
-ConsoleHelpers.press_enter_to_continue()
+character_agent.start_conversation()
 ConsoleHelpers.create_space()
 
 # Start conversation with EventAgent
-event_agent = EventAgent(world_agent.conversation_summary, character_information)
+event_agent = EventAgent(world_agent.conversation_summary, character_agent.conversation_summary)
 event_agent.agent_print(event_agent.opening_statement)
 ConsoleHelpers.press_enter_to_continue()
 event_information = event_agent.generate_end_of_story()
