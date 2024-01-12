@@ -41,7 +41,7 @@ class EventAgent(Agent):
     def conduct_conversation(self):
 
         self.agent_print(self.final_event)
-        user_input = input()
+        user_input = ConsoleHelpers.get_user_input()
         self.take_user_input(user_input)
 
         if InputChecker.should_skip_process(user_input):
