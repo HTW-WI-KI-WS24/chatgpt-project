@@ -2,7 +2,8 @@ from src.agents.Agent import Agent
 
 
 class StoryAgent(Agent):
-    def __init__(self, world_agent_summary: str, character_agent_summary: str, context_ending_summary: str):
+    def __init__(self, world_agent_summary: str, character_agent_summary: str, context_ending_summary: str,
+                 detail_multiplier):
         super().__init__(
             name="StoryAgent",
             role="""
@@ -25,9 +26,26 @@ class StoryAgent(Agent):
                 """,
             opening_statement_instructions="Greet me and explain to me in about three sentences, what your role is."
         )
+        self.model = "gpt-3.5-turbo-1106"
         self.context.append({"role": "user", "content": world_agent_summary})
         self.context.append({"role": "user", "content": character_agent_summary})
         self.context.append({"role": "user", "content": context_ending_summary})
+        self.detail_multiplier = detail_multiplier
+        self.story = ""
 
     def generate_events(self):
-        return self.generate_response()
+        self.story = self.generate_response()
+        self.more_details()
+        return self.story
+
+    def more_details(self):
+        while self.detail_multiplier > 0:
+            self.story = self.take_input_and_generate_response("""
+            Take the story you have created and expand it. Add new events and make existing ones even more detailed. 
+            Make The output much longer! Write a ";" at the end of every Event you generated.
+            """)
+            self.detail_multiplier -= 1
+
+    def split_events(self):
+        events = str(self.story).split()
+    #def create_events_between(self):
