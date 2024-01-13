@@ -30,3 +30,4 @@ class StructureAgent(Agent):
         for x in self.list:
             print(ConsoleHelpers.convert_to_block_text(str(x)) + "\n")
         # print(self.list)
+        return self.list
