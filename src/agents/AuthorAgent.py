@@ -2,7 +2,7 @@ from src.agents.Agent import Agent
 
 
 class AuthorAgent(Agent):
-    def __init__(self, structure_agent_summary: str, recent_chapters_summary: str):
+    def __init__(self, book_structure_list: str):
         super().__init__(
             name="AuthorAgent",
             role="""
@@ -13,8 +13,27 @@ class AuthorAgent(Agent):
                 """,
             opening_statement_instructions="Greet me and explain to me in about three sentences, what your role is."
         )
-        self.context.append({"role": "user", "content": structure_agent_summary})
-        self.context.append({"role": "user", "content": recent_chapters_summary})
+        self.context.append({"role": "user", "content": book_structure_list})
+        self.recent_chapters_summary = ''
 
-    def write_chapter(self):
-        self.generate_response()
+    def write_chapter(self, chapter_structure):
+        chapter_content = self.take_input_and_generate_response(chapter_structure)
+        self.summarize_chapter(chapter_content)
+        return chapter_content
+
+    def write_chapter_into_textfile(self, chapter_content):
+        f = open("test.txt", "a")
+        f.write(chapter_content)
+        f.close()
+
+        # open and read file after appending
+        f = open("test.txt", "r")
+        print(f.read())
+
+    def summarize_chapter(self, chapter_content):
+        self.recent_chapters_summary = self.take_input_and_generate_response("Please summarize the the given content "
+                                                                             "of the chapter. The summary should "
+                                                                             "contain all the key points of the "
+                                                                             "chapter so that there can be made a "
+                                                                             "fluid transition to the following "
+                                                                             "chapter. Content: " + chapter_content)
