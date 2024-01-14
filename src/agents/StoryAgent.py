@@ -44,7 +44,8 @@ class StoryAgent(Agent):
         while self.detail_multiplier > 0:
             self.story = self.take_input_and_generate_response("""
             Take the story you have created and expand it. Add new events and make existing ones even more detailed. 
-            Make The output much longer! Write a ";" at the end of every Event you generated.
+            Make The output much longer! Write a ";" at the end of every Event you generated. The ";" 
+            is very important. Check if it is there 
             """)
             self.detail_multiplier -= 1
 
@@ -52,15 +53,20 @@ class StoryAgent(Agent):
         self.events = str(self.story).split(";")
 
     def create_events_between(self):
+
         new_events_list = []
         for i in range(len(self.events) - 1):
-            if i < len(self.events) - 2:
-                new_event = self.take_input_and_generate_response("""
-                Add an extra event between the two given events. The new event should be as detailed as possible.
+            self.context.append({"role": "user", "content": self.events[i]})
+            self.context.append({"role": "user", "content": self.events[i+1]})
+            new_event = self.take_input_and_generate_response("""
+                A chapter between the 2 given. The new chapter should have the same structure as the two existing 
+                chapters, but its content should form a bridge between them. 
+                The content should therefore take place between the chapters
                 """)
-                new_events_list.extend([self.events[i], new_event, self.events[i + 1]])
-            else:
-                new_events_list.append(self.events[i])
+            new_events_list.append(i)
+            new_events_list.append(new_event)
+        return new_events_list
+
 
         for x in new_events_list:
             print(str(x) + "\n\n")
