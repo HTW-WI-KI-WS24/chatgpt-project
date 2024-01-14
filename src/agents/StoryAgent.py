@@ -3,57 +3,52 @@ from src.agents.Agent import Agent
 
 class StoryAgent(Agent):
     def __init__(self, world_agent_summary: str, character_agent_summary: str, context_ending_summary: str,
-                 detail_multiplier):
+                 detail_multiplier = 1):
         super().__init__(
             name="StoryAgent",
-            role="""
-                As an accomplished book author with a knack for crafting compelling and unpredictable plots, 
-                you're tasked with developing events that seamlessly fit into an intricately designed world. 
-                The story already features a diverse set of characters and has a predefined ending. Your 
-                challenge is to create events that not only align with the given world, characters, and ending 
-                but also bring a unique and captivating twist. Craft events that surprise the reader, avoiding 
-                clichés and ensuring the narrative flows organically. Your goal is to deliver a storyline that 
-                keeps the audience engaged from start to finish.
-                Note that you will be given a finished event/finale/end of the book as input. 
-                Invent a start of the story that does not yet point to the end. 
-                Then create all the intermediate events that occur up to the end. 
-                Remember that it is a book and that there must be a certain complexity and length.
-                You generate many significant intermediate events between the start of the book and the end. 
-                Proceed in bullet points! Each event created between the beginning and end of the book 
-                should be placed behind a key point. 
-                Events in bullet Points
+            role="""         
+                You specialize in creating events for books.
                 
+                It is your job to create a huge number of events that start from the beginning of the book and lead
+                up to a final event that you will be provided with. You should take into account the users
+                already designed world, his already created characters and the final event that he thought of.
+        
+                Generate at least 50 events that you put into bullet points and structure them into different chapters.
+                Create at least 7 events per chapter.
                 """,
-            opening_statement_instructions="Greet me and explain to me in about three sentences, what your role is."
+            opening_statement_instructions=""
         )
-        self.model = "gpt-3.5-turbo-1106"
-        self.context.append({"role": "user", "content": world_agent_summary})
-        self.context.append({"role": "user", "content": character_agent_summary})
-        self.context.append({"role": "user", "content": context_ending_summary})
+        self.take_user_input(world_agent_summary)
+        self.take_user_input(character_agent_summary)
+        self.take_user_input(context_ending_summary)
         self.detail_multiplier = detail_multiplier
         self.story = ""
         self.events = []
 
     def generate_events(self):
         self.story = self.generate_response()
-        self.more_details()
         self.split_events()
-        return self.story
+        return self.events
 
     def more_details(self):
         while self.detail_multiplier > 0:
             self.story = self.take_input_and_generate_response("""
-            Take the story you have created and expand it. Add new events and make existing ones even more detailed. 
-            Make The output much longer! Write a ";" at the end of every Event you generated. The ";" 
-            is very important. Check if it is there 
+            Take all of the bullet points you have created for the events. Add new events in-between and make them fit
+            in. Write a ";" at the end of every event you generate. Please tell me the entirety of the events that now
+            exist. The ";" at the end of every event is very important. Check again if it is there.
             """)
             self.detail_multiplier -= 1
 
     def split_events(self):
-        self.events = str(self.story).split(";")
+        self.events = str(self.story).split("Chapter")
+        self.events = self.events[1:]
+        for i in range(len(self.events) - 1):
+            self.events[i] = "Chapter" + self.events[i]
+            self.events[i] = self.events[i][:-7]
+
+
 
     def create_events_between(self):
-
         new_events_list = []
         for i in range(len(self.events) - 1):
             self.context.append({"role": "user", "content": self.events[i]})
@@ -72,10 +67,4 @@ class StoryAgent(Agent):
         print(f"old event{self.events[-1]}")
         new_events_list.append(self.events[-1])
         self.events = new_events_list
-        return new_events_list
-
-
-        for x in new_events_list:
-            print(str(x) + "\n\n")
-
         return new_events_list

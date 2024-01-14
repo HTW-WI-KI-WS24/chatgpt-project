@@ -16,13 +16,12 @@ class EventAgent(Agent):
                 """,
             opening_statement_instructions="Greet me and explain to me in about three sentences, what your role is."
         )
-        self.context.append({"role": "user", "content": world_agent_summary})
-        self.context.append({"role": "user", "content": character_agent_summary})
+        self.take_user_input(world_agent_summary)
+        self.take_user_input(character_agent_summary)
         self.final_event = ""
 
     def generate_end_of_story(self):
         self.final_event = self.take_input_and_generate_response(
-            # "Create the ending event of my book and describe it in less than six sentences!"
             "Create the ending event of my book and describe it as detailed as possible!"
         )
 
@@ -32,16 +31,17 @@ class EventAgent(Agent):
     def start_conversation(self):
         ConsoleHelpers.print_command_list()
         self.agent_print(self.opening_statement)
+        ConsoleHelpers.press_enter_to_continue()
         self.agent_print("""I have designed the following ending for you. 
                          If you are not satisfied with the ending or would like to make changes, please let me know. 
                          For example, if you want to kill a character, you can do it here completely legally ;)""")
-        self.generate_end_of_story()
         self.conduct_conversation()
         return self.final_event
 
     def conduct_conversation(self):
-
+        self.generate_end_of_story()
         self.agent_print(self.final_event)
+
         user_input = ConsoleHelpers.get_user_input()
         self.take_user_input(user_input)
 
@@ -52,12 +52,4 @@ class EventAgent(Agent):
             return self.start_conversation()
 
         else:
-            self.final_event = self.generate_response()
             return self.conduct_conversation()
-
-
-    def summarize_conversation(self):
-
-        self.conversation_summary: str = self.take_input_and_generate_response(("""Summarise what I have in mind for my book. 
-                                                                                Make sure you include all my wishes in the ending"""))
-

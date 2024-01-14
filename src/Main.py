@@ -8,36 +8,47 @@ from agents.WorldAgent import WorldAgent
 from agents.StoryAgent import StoryAgent
 from agents.StructureAgent import StructureAgent
 from agents.AuthorAgent import AuthorAgent
-from src.utils.PromptHelpers import world_information, character_information, event_information, story_information, generate_story_events
+from src.utils.PromptHelpers import world_information, character_information, final_event_information, story_information, generate_story_events
 from utils import ConsoleHelpers
 
-# # Greet and introduce user
-# ConsoleHelpers.print_line()
-# BookGPT.introduce_application()
-# ConsoleHelpers.create_space()
-#
-# # Start conversation with CentralAgent
-# central_agent = CentralAgent()
-# central_agent.start_conversation()
-# ConsoleHelpers.create_space()
-#
-# # Start conversation with WorldAgent
-# world_agent = WorldAgent(central_agent.conversation_summary)
-# world_agent.start_conversation()
-# ConsoleHelpers.create_space()
-#
-# # Start conversation with CharacterAgent
-# character_agent = CharacterAgent(central_agent.conversation_summary, world_agent.conversation_summary)
-# character_agent.start_conversation()
-# ConsoleHelpers.create_space()
-#
-# # Start conversation with EventAgent
-# # event_agent = EventAgent(world_agent.conversation_summary, character_agent.conversation_summary)
-# # event_agent.agent_print(event_agent.opening_statement)
-# # ConsoleHelpers.press_enter_to_continue()
-# # event_information = event_agent.generate_end_of_story()
-# # event_agent.agent_print(event_information)
-#
+'''
+# Greet and introduce user
+ConsoleHelpers.print_line()
+BookGPT.introduce_application()
+ConsoleHelpers.create_space()
+
+# Start conversation with CentralAgent
+central_agent = CentralAgent()
+central_agent.start_conversation()
+central_information = central_agent.conversation_summary
+ConsoleHelpers.create_space()
+
+# Start conversation with WorldAgent
+world_agent = WorldAgent(central_information)
+world_agent.start_conversation()
+world_information = world_agent.conversation_summary
+ConsoleHelpers.create_space()
+
+# Start conversation with CharacterAgent
+character_agent = CharacterAgent(central_information, world_information)
+character_agent.start_conversation()
+character_information = character_agent.conversation_summary
+ConsoleHelpers.create_space()
+
+# Start conversation with EventAgent
+event_agent = EventAgent(world_information, character_information)
+event_agent.start_conversation()
+final_event_information = event_agent.get_final_event()
+ConsoleHelpers.create_space()
+'''
+
+# Start conversation with StoryAgent
+story_agent = StoryAgent(world_information, character_information, final_event_information, )
+events = story_agent.generate_events()
+for event in events:
+    print("=-=-=-=-=-=-=\n" + event)
+
+
 # # I want to write an action book with that plays in london 1930. I want to have 3 main characters and my book to be
 # # targeted at young adults. I also want my book to be rather short.
 #
@@ -54,14 +65,14 @@ from utils import ConsoleHelpers
 # story_agent = StoryAgent(world_agent.conversation_summary, character_agent.conversation_summary, event_agent.final_event)
 # generate_story_events = story_agent.generate_events()
 # story_agent.agent_print(generate_story_events)
-
-story_agent = StoryAgent(world_information, character_information, event_information, 1)
+'''
+story_agent = StoryAgent(world_information, character_information, final_event_information, 1)
 story = story_agent.generate_events()
 new_events_list = story_agent.create_events_between()
 for event in new_events_list:
 
     print(f"EVENT:{event}")
-
+'''
 
 '''
 structure_agent = StructureAgent(story_information)

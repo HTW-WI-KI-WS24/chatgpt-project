@@ -46,7 +46,7 @@ Hintergrundgeschichte: Lysander ist auf der Suche nach altem Wissen und verborge
 Diese Charaktere bringen jeweils ihre einzigartigen Fähigkeiten, Perspektiven und Hintergrundgeschichten in die Welt von Eldoria ein und sind entscheidend für die Entfaltung der vielschichtigen Ereignisse, die dieses magische Reich prägen.
 """
 
-event_information = """
+final_event_information = """
 The final event in which the plot of your book unfolds takes place at the Convergence of 
 Realms, a mystical location hidden deep within the heart of Eldoria. In this ancient place, the boundaries 
 between magic and reality are blurred, and the fate of the entire realm hangs in the balance. As Ariella, 
