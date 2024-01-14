@@ -1,5 +1,3 @@
-# import streamlit as st
-
 import BookGPT
 from agents.CentralAgent import CentralAgent
 from agents.CharacterAgent import CharacterAgent
@@ -9,6 +7,7 @@ from agents.StoryAgent import StoryAgent
 from agents.AuthorAgent import AuthorAgent
 from utils import ConsoleHelpers
 from utils import PromptHelpers as ph
+
 
 # Greet and introduce user
 ConsoleHelpers.print_line()
