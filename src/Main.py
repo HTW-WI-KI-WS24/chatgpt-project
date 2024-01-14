@@ -57,13 +57,17 @@ from utils import ConsoleHelpers
 
 story_agent = StoryAgent(world_information, character_information, event_information, 1)
 story = story_agent.generate_events()
-print(story)
 new_events_list = story_agent.create_events_between()
-# print(story_agent.events)
+for event in new_events_list:
 
-structure_agent = StructureAgent(new_events_list)
+    print(f"EVENT:{event}")
+
+
+'''
+structure_agent = StructureAgent(story_information)
 structure_information = structure_agent.book_structure
-# structure_agent.write_chapters_into_list(structure_information)
+structure_agent.write_chapters_into_list(structure_information)
+'''
 #
 # author_agent = AuthorAgent()
 # for chapter in structure_agent.list:

@@ -64,9 +64,14 @@ class StoryAgent(Agent):
                 The content should therefore take place between the events.
                 Make the full event behind a bullet point.
                 """)
-            new_events_list.append(i)
+            new_events_list.append(self.events[i])
             new_events_list.append(new_event)
+            print(f"old event{self.events[i]}")
             print(f"NEW EVENT{new_event}")
+
+        print(f"old event{self.events[-1]}")
+        new_events_list.append(self.events[-1])
+        self.events = new_events_list
         return new_events_list
 
 
