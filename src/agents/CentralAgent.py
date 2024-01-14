@@ -17,7 +17,7 @@ class CentralAgent(Agent):
                 book, since this is only supposed to be a general idea.
    
                 Parameters that the user should think about could for example be the book's genre, setting, location,
-                number of main characters, approximate length, target audience, the message it shall 
+                number of main characters, target audience, the message it shall 
                 convey etc.
                 
                 Be sure to not go into detail of the specific setting or the characters that the user has envisioned
@@ -74,7 +74,7 @@ class CentralAgent(Agent):
         context_copy: list[dict[str, str]] = self.get_context_copy()
 
         chat_gpt = StandardChatGPT(context_copy)
-        response: str = chat_gpt.generate_response(
+        response: str = chat_gpt.take_user_input_and_generate_response(
             ("Have I asked you something in my last message?"
              "Respond with \"1\" if yes. Respond with \"0\" if not.")
         )
@@ -85,7 +85,7 @@ class CentralAgent(Agent):
         context_copy: list[dict[str, str]] = self.get_context_copy()
 
         chat_gpt = StandardChatGPT(context_copy)
-        response: str = chat_gpt.generate_response(
+        response: str = chat_gpt.take_user_input_and_generate_response(
             ("Have I given you Information on all of the points you are supposed to collect from me"
              "for my book? Respond with \"1\" if so. Respond with \"0\" if not.")
         )

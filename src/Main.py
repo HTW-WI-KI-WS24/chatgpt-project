@@ -6,11 +6,9 @@ from agents.CharacterAgent import CharacterAgent
 from agents.EventAgent import EventAgent
 from agents.WorldAgent import WorldAgent
 from agents.StoryAgent import StoryAgent
-from agents.StructureAgent import StructureAgent
 from agents.AuthorAgent import AuthorAgent
-from src.utils.PromptHelpers import world_information, character_information, final_event_information, story_information, generate_story_events
 from utils import ConsoleHelpers
-
+from utils import PromptHelpers as ph
 '''
 # Greet and introduce user
 ConsoleHelpers.print_line()
@@ -36,29 +34,23 @@ character_information = character_agent.conversation_summary
 ConsoleHelpers.create_space()
 
 # Start conversation with EventAgent
-event_agent = EventAgent(world_information, character_information)
+event_agent = EventAgent(ph.world_information, ph.character_information)
 event_agent.start_conversation()
 final_event_information = event_agent.get_final_event()
 ConsoleHelpers.create_space()
 '''
-
-# Start conversation with StoryAgent
-story_agent = StoryAgent(world_information, character_information, final_event_information, )
+# StoryAgent
+story_agent = StoryAgent(ph.world_information, ph.character_information, ph.final_event_information)
 events = story_agent.generate_events()
-'''
-for event in events:
-    print("=-=-=-=-=-=-=\n" + event)
-'''
-author_agent = AuthorAgent(events)
-book = author_agent.generate_book()
 
-for chapter in book:
-    print("=-=-=-=-=-=-=\n" + chapter)
+# AuthorAgent
+author_agent = AuthorAgent(ph.central_information, ph.world_information, ph.character_information, events)
+author_agent.generate_book()
+
+for chapter in author_agent.chapters:
+    print(chapter.chapter)
 
 
-# # I want to write an action book with that plays in london 1930. I want to have 3 main characters and my book to be
-# # targeted at young adults. I also want my book to be rather short.
-#
 # # streamlit
 # # assistance api
 #

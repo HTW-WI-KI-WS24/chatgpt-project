@@ -10,8 +10,11 @@ class StandardChatGPT:
         if self.context is None:
             self.context = []
 
-    def generate_response(self, user_request):
-        self.context.append({"role": "user", "content": user_request})
+    def take_user_input(self, user_input: str) -> None:
+        self.context.append({"role": "user", "content": user_input})
+
+    def take_user_input_and_generate_response(self, user_input):
+        self.take_user_input(user_input)
 
         completion = self.client.chat.completions.create(
             model="gpt-3.5-turbo",

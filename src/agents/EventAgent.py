@@ -36,7 +36,6 @@ class EventAgent(Agent):
                          If you are not satisfied with the ending or would like to make changes, please let me know. 
                          For example, if you want to kill a character, you can do it here completely legally ;)""")
         self.conduct_conversation()
-        return self.final_event
 
     def conduct_conversation(self):
         self.generate_end_of_story()
@@ -46,10 +45,9 @@ class EventAgent(Agent):
         self.take_user_input(user_input)
 
         if InputChecker.should_skip_process(user_input):
-            return self.final_event
+            return
         elif InputChecker.should_repeat_process(user_input):
             self.reset_context()
-            return self.start_conversation()
-
+            self.start_conversation()
         else:
             return self.conduct_conversation()

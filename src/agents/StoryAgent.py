@@ -3,7 +3,7 @@ from src.agents.Agent import Agent
 
 class StoryAgent(Agent):
     def __init__(self, world_agent_summary: str, character_agent_summary: str, context_ending_summary: str,
-                 detail_multiplier = 1):
+                 detail_multiplier=1):
         super().__init__(
             name="StoryAgent",
             role="""         
@@ -13,10 +13,13 @@ class StoryAgent(Agent):
                 up to a final event that you will be provided with. You should take into account the users
                 already designed world, his already created characters and the final event that he thought of.
         
-                Generate at least 50 events that you put into bullet points and structure them into different chapters.
-                Create at least 7 events per chapter.
+                Put the word "Chapter" in front of every chapter! Make a bullet point starting with "-" for every event!
+                
+                Think of as many events as possible along the way.
+                Generate at least 50 events.
                 """,
-            opening_statement_instructions=""
+            opening_statement_instructions="",
+            model="gpt-3.5-turbo-1106"
         )
         self.take_user_input(world_agent_summary)
         self.take_user_input(character_agent_summary)
@@ -26,45 +29,16 @@ class StoryAgent(Agent):
         self.events = []
 
     def generate_events(self):
+        print("~ event generation")
         self.story = self.generate_response()
         self.split_events()
+        print("~ number of generated chapters = " + str(len(self.events)))
+        print("~ chapters: " + str(self.events))
         return self.events
-
-    def more_details(self):
-        while self.detail_multiplier > 0:
-            self.story = self.take_input_and_generate_response("""
-            Take all of the bullet points you have created for the events. Add new events in-between and make them fit
-            in. Write a ";" at the end of every event you generate. Please tell me the entirety of the events that now
-            exist. The ";" at the end of every event is very important. Check again if it is there.
-            """)
-            self.detail_multiplier -= 1
 
     def split_events(self):
         self.events = str(self.story).split("Chapter")
-        self.events = self.events[1:]
+        if len(self.events[0]) < 20:
+            self.events = self.events[1:]
         for i in range(len(self.events) - 1):
             self.events[i] = "Chapter" + self.events[i]
-            self.events[i] = self.events[i][:-7]
-
-
-
-    def create_events_between(self):
-        new_events_list = []
-        for i in range(len(self.events) - 1):
-            self.context.append({"role": "user", "content": self.events[i]})
-            self.context.append({"role": "user", "content": self.events[i+1]})
-            new_event = self.take_input_and_generate_response("""
-               Create an Event between the two given. The new event should have the same structure as the two existing 
-                events, but its content should form a bridge between them. 
-                The content should therefore take place between the events.
-                Make the full event behind a bullet point.
-                """)
-            new_events_list.append(self.events[i])
-            new_events_list.append(new_event)
-            print(f"old event{self.events[i]}")
-            print(f"NEW EVENT{new_event}")
-
-        print(f"old event{self.events[-1]}")
-        new_events_list.append(self.events[-1])
-        self.events = new_events_list
-        return new_events_list
