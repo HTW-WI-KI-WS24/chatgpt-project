@@ -45,8 +45,15 @@ ConsoleHelpers.create_space()
 # Start conversation with StoryAgent
 story_agent = StoryAgent(world_information, character_information, final_event_information, )
 events = story_agent.generate_events()
+'''
 for event in events:
     print("=-=-=-=-=-=-=\n" + event)
+'''
+author_agent = AuthorAgent(events)
+book = author_agent.generate_book()
+
+for chapter in book:
+    print("=-=-=-=-=-=-=\n" + chapter)
 
 
 # # I want to write an action book with that plays in london 1930. I want to have 3 main characters and my book to be
