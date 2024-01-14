@@ -21,7 +21,7 @@ class StoryAgent(Agent):
                 You generate many significant intermediate events between the start of the book and the end. 
                 Proceed in bullet points! Each event created between the beginning and end of the book 
                 should be placed behind a key point. 
-        
+                Events in bullet Points
                 
                 """,
             opening_statement_instructions="Greet me and explain to me in about three sentences, what your role is."
@@ -59,12 +59,14 @@ class StoryAgent(Agent):
             self.context.append({"role": "user", "content": self.events[i]})
             self.context.append({"role": "user", "content": self.events[i+1]})
             new_event = self.take_input_and_generate_response("""
-                A chapter between the 2 given. The new chapter should have the same structure as the two existing 
-                chapters, but its content should form a bridge between them. 
-                The content should therefore take place between the chapters
+               Create an Event between the two given. The new event should have the same structure as the two existing 
+                events, but its content should form a bridge between them. 
+                The content should therefore take place between the events.
+                Make the full event behind a bullet point.
                 """)
             new_events_list.append(i)
             new_events_list.append(new_event)
+            print(f"NEW EVENT{new_event}")
         return new_events_list
 
 
