@@ -9,6 +9,8 @@ from utils import ConsoleHelpers
 from utils import PromptHelpers as ph
 
 
+# AUTHORS: Jonas Könner, Khanh Le Dang, Marvin Marino Petsch
+
 # Greet and introduce user
 ConsoleHelpers.print_line()
 BookGPT.introduce_application()
