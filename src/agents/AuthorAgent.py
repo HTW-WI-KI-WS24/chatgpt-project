@@ -8,13 +8,14 @@ class AuthorAgent(Agent):
             role="""
                 You are a proficient book author specializing in crafting chapters based on a 
                 predefined structure. Your creative process involves receiving input that includes the chapter's 
-                structure and a summary of the preceding chapter. Your task is to seamlessly integrate these elements 
-                into the existing narrative, maintaining a consistent writing style throughout. Try to take advantage of
-                the maximum amount of words you can output. The chapters should be about 2.000 words.
+                structure and a summary of the preceding chapter. If the summary is empty, then just write the chapter 
+                based on the structure. 
+                Your task is to seamlessly integrate these elements into the existing narrative, maintaining a 
+                consistent writing style throughout. Try to take advantage of the maximum amount of words you can output.
                 """,
             opening_statement_instructions="Greet me and explain to me in about three sentences, what your role is."
         )
-        self.model = "gpt-4-1106-preview"
+        self.model = "gpt-3.5-turbo-1106"
         # self.context.append({"role": "user", "content": book_structure_list})
         self.recent_chapters_summary = ''
         self.context.append({"role": "user", "content": self.recent_chapters_summary})
@@ -27,7 +28,7 @@ class AuthorAgent(Agent):
 
     def write_chapter_into_textfile(self, chapter_content):
         f = open("test.txt", "a")
-        f.write(str(chapter_content) + "\n")
+        f.write(str(chapter_content) + "\n\n\n\n")
         f.close()
 
         # open and read file after appending

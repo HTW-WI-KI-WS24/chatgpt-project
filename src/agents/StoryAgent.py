@@ -32,10 +32,12 @@ class StoryAgent(Agent):
         self.context.append({"role": "user", "content": context_ending_summary})
         self.detail_multiplier = detail_multiplier
         self.story = ""
+        self.events = []
 
     def generate_events(self):
         self.story = self.generate_response()
         self.more_details()
+        self.split_events()
         return self.story
 
     def more_details(self):
@@ -47,5 +49,20 @@ class StoryAgent(Agent):
             self.detail_multiplier -= 1
 
     def split_events(self):
-        events = str(self.story).split()
-    #def create_events_between(self):
+        self.events = str(self.story).split(";")
+
+    def create_events_between(self):
+        new_events_list = []
+        for i in range(len(self.events) - 1):
+            if i < len(self.events) - 2:
+                new_event = self.take_input_and_generate_response("""
+                Add an extra event between the two given events. The new event should be as detailed as possible.
+                """)
+                new_events_list.extend([self.events[i], new_event, self.events[i + 1]])
+            else:
+                new_events_list.append(self.events[i])
+
+        for x in new_events_list:
+            print(str(x) + "\n\n")
+
+        return new_events_list

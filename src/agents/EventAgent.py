@@ -22,7 +22,8 @@ class EventAgent(Agent):
 
     def generate_end_of_story(self):
         self.final_event = self.take_input_and_generate_response(
-            "Create the ending event of my book and describe it in less than six sentences!"
+            # "Create the ending event of my book and describe it in less than six sentences!"
+            "Create the ending event of my book and describe it as detailed as possible!"
         )
 
     def get_final_event(self):
