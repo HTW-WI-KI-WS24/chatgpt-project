@@ -40,12 +40,12 @@ class AuthorAgent(Agent):
         for index, event_collection in enumerate(self.chapter_as_event_collections):
             if index == 0:
                 print("~ chapter 1 generation")
-                self.generate_chapter(event_collection)
+                self.generate_chapter(event_collection, index + 1)
             else:
                 print("~ chapter " + str(index + 1) + " generation")
-                self.generate_chapter(event_collection, self.chapters[index - 1].chapter_ending_summary)
+                self.generate_chapter(event_collection, index + 1, self.chapters[index - 1].chapter_ending_summary)
 
-    def generate_chapter(self, events_descriptions, prior_chapter_ending_summary=""):
+    def generate_chapter(self, events_descriptions, chapter_number, prior_chapter_ending_summary=""):
         lines_within_events = events_descriptions.split('\n')
 
         events = [line for line in lines_within_events if '-' in line]
@@ -56,7 +56,10 @@ class AuthorAgent(Agent):
 
         for index, event in enumerate(events):
             if index == 0:
-                self.take_user_input("This is going to be a new chapter, please start the chapter with its name.")
+                self.take_user_input("This is going to the start of " + str(chapter_number) + ", please start the "
+                                                                                              "chapter with its number "
+                                                                                              "and its name.")
+
                 if prior_chapter_ending_summary != "":
                     chapter += self.generate_transition(prior_chapter_ending_summary, event)
             else:

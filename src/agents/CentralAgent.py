@@ -38,9 +38,9 @@ class CentralAgent(Agent):
         user_input = ConsoleHelpers.get_user_input()
         self.take_user_input(user_input)
 
-        if self.has_user_given_enough_information() and not self.is_user_asking_something(user_input):
-            self.end_conversation()
-            return
+        # if self.has_user_given_enough_information() and not self.is_user_asking_something(user_input):
+        #     self.end_conversation()
+        #     return
 
         if InputChecker.should_skip_process(user_input):
             self.end_conversation()
