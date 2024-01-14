@@ -56,6 +56,7 @@ class AuthorAgent(Agent):
 
         for index, event in enumerate(events):
             if index == 0:
+                self.take_user_input("This is going to be a new chapter, please start the chapter with its name.")
                 if prior_chapter_ending_summary != "":
                     chapter += self.generate_transition(prior_chapter_ending_summary, event)
             else:

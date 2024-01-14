@@ -2,7 +2,7 @@
 
 ## Installation Guide
 
-Execute <code>pip install streamlit</code> as well as <code>pip install openai</code> in your command line.
+Execute <code>pip install openai</code> in your command line.
 
 Put a valid openai-key as well as the correct python version into your environment variables.
 
